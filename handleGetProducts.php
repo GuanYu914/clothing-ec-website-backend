@@ -122,6 +122,22 @@ try {
 }
 $conn->autocommit(TRUE);
 
+// 若根據 limit, offset 設定，結果抓不到資料，可能需要重新檢查 limit, offset
+if (count($data) == 0) {
+  $response = array(
+    'isSuccessful' => 'failed',
+    'totals'       => count($fetch_products_list_by_id),
+    'data'         => '',
+    'msg'          => "can't find anything on database",
+    'detail'       => 'check your limit and offset settings',
+  );
+
+  $response = json_encode($response);
+  header('Content-Type: application/json;charset=utf-8');
+  echo $response;
+  die();
+}
+
 $response = array(
   'isSuccessful'  => 'successful',
   'totals'        => count($fetch_products_list_by_id),

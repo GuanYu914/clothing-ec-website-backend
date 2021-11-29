@@ -60,6 +60,21 @@ while ($row = $res->fetch_assoc()) {
   ));
 }
 
+// 假如沒有從資料庫抓不到資料，可能是該 id 並沒有資料
+if (count($data) == 0) {
+  $response = array(
+    'isSuccessful' => 'failed',
+    'data'         => '',
+    'msg'          => "can't find anything on database",
+    'detail'       => 'check your id is valid',
+  );
+
+  $response = json_encode($response);
+  header('Content-Type: application/json;charset=utf-8');
+  echo $response;
+  die();
+}
+
 $response = array(
   'isSuccessful' => 'successful',
   'data'         => $data,
