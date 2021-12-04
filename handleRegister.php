@@ -19,7 +19,7 @@ $json_from_request = file_get_contents('php://input');
 $post_data = json_decode($json_from_request, true);
 
 // check if post data is empty
-if (empty($post_data['nickname']) || empty($post_data['account'] || empty($post_data['password']))) {
+if (empty($post_data['nickname']) || empty($post_data['account']) || empty($post_data['password'])) {
   $response = array(
     'isSuccessful'  => 'failed',
     'msg'           => 'empty post data',
