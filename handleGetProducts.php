@@ -109,16 +109,7 @@ try {
     }
   }
 } catch (mysqli_sql_exception $exception) {
-  mysqli_rollback($mysqli);
-  $response = array(
-    'isSuccessful'  => 'failed',
-    'msg'           => 'encounter sql error',
-    'detail'        => 'none'
-  );
-  $response = json_encode($response);
-  header('Content-Type: application/json;charset=utf-8');
-  echo $response;
-  die();
+  $conn->rollback();
 }
 $conn->autocommit(TRUE);
 
