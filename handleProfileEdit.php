@@ -23,7 +23,7 @@ if (empty($post_data['nickname']) || empty($_SESSION['account']) || empty($post_
   $response = array(
     'isSuccessful'  => 'failed',
     'msg'           => 'empty post data',
-    'detail'        => '',
+    'detail'        => 'none',
   );
 
   $response = json_encode($response);
@@ -37,7 +37,7 @@ if (mb_strlen($post_data['nickname']) > 10) {
   $response = array(
     'isSuccessful'  => 'failed',
     'msg'           => 'nickname is invalid',
-    'detail'        => ''
+    'detail'        => 'none'
   );
 
   $response = json_encode($response);
@@ -53,7 +53,7 @@ if (
   $response = array(
     'isSuccessful'  => 'failed',
     'msg'           => 'account or password is invalid',
-    'detail'        => ''
+    'detail'        => 'none'
   );
 
   $response = json_encode($response);
@@ -74,7 +74,7 @@ if (!$res) {
   $response = array(
     'isSuccessful'  => 'failed',
     'msg'           => 'encounter SQL error',
-    'detail'        => $conn->errno . ": " . $conn->error,
+    'detail'        => $stmt->error,
   );
 
   $response = json_encode($response);
@@ -85,8 +85,8 @@ if (!$res) {
 
 $response = array(
   'isSuccessful'  => 'successful',
-  'msg'           => '',
-  'detail'        => '',
+  'msg'           => 'none',
+  'detail'        => 'none',
 );
 
 $response = json_encode($response);

@@ -18,7 +18,7 @@ if ($query_product_id == null) {
     'isSuccessful' => 'failed',
     'data'         => 'none',
     'msg'          => "must provide query string 'id'",
-    'detail'       => '',
+    'detail'       => 'none',
   );
 
   $response = json_encode($response);
@@ -36,7 +36,7 @@ if (!$res) {
     'isSuccessful' => 'failed',
     'data'         => 'none',
     'msg'          => "can't get product info from database",
-    'detail'       => 'encounter sql error',
+    'detail'       => $stmt->error,
   );
 
   $response = json_encode($response);
@@ -49,14 +49,14 @@ $res = $stmt->get_result();
 $data = array();
 while ($row = $res->fetch_assoc()) {
   array_push($data, array(
-    'pid'     => $row['pid'],
-    'category' => $row['category'],
-    'name'    => $row['name'],
-    'detail'  => $row['detail'],
-    'imgs'    => $row['imgs'],
-    'colors'  => $row['colors'],
-    'sizes'   => $row['sizes'],
-    'price'   => $row['price'],
+    'pid'       => $row['pid'],
+    'category'  => $row['category'],
+    'name'      => $row['name'],
+    'detail'    => $row['detail'],
+    'imgs'      => $row['imgs'],
+    'colors'    => $row['colors'],
+    'sizes'     => $row['sizes'],
+    'price'     => $row['price'],
   ));
 }
 
@@ -64,7 +64,7 @@ while ($row = $res->fetch_assoc()) {
 if (count($data) == 0) {
   $response = array(
     'isSuccessful' => 'failed',
-    'data'         => '',
+    'data'         => 'none',
     'msg'          => "can't find anything on database",
     'detail'       => 'check your id is valid',
   );
@@ -78,8 +78,8 @@ if (count($data) == 0) {
 $response = array(
   'isSuccessful' => 'successful',
   'data'         => $data,
-  'msg'          => "",
-  'detail'       => '',
+  'msg'          => "none",
+  'detail'       => 'none',
 );
 
 $response = json_encode($response);

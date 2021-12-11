@@ -15,8 +15,8 @@ session_destroy();
 
 $response = array(
   'isSuccessful'  => 'successful',
-  'msg'           => '',
-  'detail'        => ''
+  'msg'           => 'none',
+  'detail'        => 'none'
 );
 
 $response = json_encode($response);

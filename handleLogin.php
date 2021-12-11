@@ -24,7 +24,7 @@ if (empty($post_data['account']) || empty($post_data['password'])) {
   $response = array(
     'isSuccessful'  => 'failed',
     'msg'           => 'empty post data',
-    'detail'        => ''
+    'detail'        => 'none'
   );
 
   $response = json_encode($response);
@@ -41,7 +41,7 @@ if (
   $response = array(
     'isSuccessful'  => 'failed',
     'msg'           => 'account or password is invalid',
-    'detail'        => ''
+    'detail'        => 'none'
   );
 
   $response = json_encode($response);
@@ -63,7 +63,7 @@ if (!$res) {
   $response = array(
     'isSuccessful'  => 'failed',
     'msg'           => 'encounter SQL error',
-    'detail'        => $conn->errno . ": " . $conn->error
+    'detail'        => $stmt->error
   );
   $response = json_encode($response);
   header('Content-Type: application/json;charset=utf8');
@@ -93,9 +93,9 @@ $res = $stmt->execute();
 
 if (!$res) {
   $response = array(
-    'isSuccessful' => 'failed',
-    'msg' => 'encounter SQL error',
-    'detail' => $conn->errno . ": " . $conn->error
+    'isSuccessful'  => 'failed',
+    'msg'           => 'encounter SQL error',
+    'detail'        => $stmt->error
   );
   $response = json_encode($response);
   header('Content-Type: application/json;charset=utf-8');
@@ -114,8 +114,8 @@ $_SESSION['password'] = $post_data['password'];  // un-hashed original password
 
 $response = array(
   'isSuccessful'  => 'successful',
-  'msg'           => '',
-  'detail'        => ''
+  'msg'           => 'none',
+  'detail'        => 'none'
 );
 
 $response = json_encode($response);

@@ -22,10 +22,10 @@ $query_offset = $_GET['offset'];
 
 if ($query_main_category == null || $query_main_category == 'undefined') {
   $response = array(
-    'isSuccessful' => 'failed',
-    'data'         => 'none',
-    'msg'          => "must provide query string 'main' field",
-    'detail'        => '',
+    'isSuccessful'  => 'failed',
+    'data'          => 'none',
+    'msg'           => "must provide query string 'main' field",
+    'detail'        => 'none',
   );
 
   $response = json_encode($response);
@@ -56,9 +56,9 @@ $res = $stmt->execute();
 
 if (!$res) {
   $response = array(
-    'isSuccessful' => 'failed',
-    'data'         => 'none',
-    'msg'          => "can't get products info from database",
+    'isSuccessful'  => 'failed',
+    'data'          => 'none',
+    'msg'           => "can't get products info from database",
     'detail'        => $stmt->error,
   );
   $response = json_encode($response);

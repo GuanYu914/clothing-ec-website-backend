@@ -23,7 +23,7 @@ if (empty($post_data['nickname']) || empty($post_data['account']) || empty($post
   $response = array(
     'isSuccessful'  => 'failed',
     'msg'           => 'empty post data',
-    'detail'        => ''
+    'detail'        => 'none'
   );
 
   $response = json_encode($response);
@@ -37,7 +37,7 @@ if (mb_strlen($post_data['nickname']) > 10) {
   $response = array(
     'isSuccessful'  => 'failed',
     'msg'           => 'nickname is invalid',
-    'detail'        => ''
+    'detail'        => 'none'
   );
 
   $response = json_encode($response);
@@ -53,7 +53,7 @@ if (
   $response = array(
     'isSuccessful'  => 'failed',
     'msg'           => 'account or password is invalid',
-    'detail'        => ''
+    'detail'        => 'none'
   );
 
   $response = json_encode($response);
@@ -74,9 +74,9 @@ if (!$res) {
   // if error is duplicate entry 
   if ($conn->errno === 1062) {
     $response = array(
-      'isSuccessful' => 'failed',
-      'msg' => 'detect same account',
-      'detail' => $conn->errno . ": " . $conn->error
+      'isSuccessful'  => 'failed',
+      'msg'           => 'detect same account',
+      'detail'        => $stmt->error
     );
     $response = json_encode($response);
     header('Content-Type: application/json;charset=utf-8');
@@ -85,9 +85,9 @@ if (!$res) {
   }
   // send error response
   $response = array(
-    'isSuccessful' => 'failed',
-    'msg' => 'encounter SQL error',
-    'detail' => $conn->errno . ": " . $conn->error
+    'isSuccessful'  => 'failed',
+    'msg'           => 'encounter SQL error',
+    'detail'        => $stmt->error
   );
   $response = json_encode($response);
   header('Content-Type: application/json;charset=utf-8');
@@ -102,9 +102,9 @@ $res = $stmt->execute();
 
 if (!$res) {
   $response = array(
-    'isSuccessful' => 'failed',
-    'msg' => 'encounter SQL error',
-    'detail' => $conn->errno . ": " . $conn->error
+    'isSuccessful'  => 'failed',
+    'msg'           => 'encounter SQL error',
+    'detail'        => $stmt->error
   );
   $response = json_encode($response);
   header('Content-Type: application/json;charset=utf-8');

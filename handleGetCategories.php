@@ -14,10 +14,10 @@ require_once('conn.php');
 $query_type = $_GET['type'];
 if ($query_type === null) {
   $response = array(
-    'isSuccessful' => 'failed',
-    'data'         => 'none',
-    'msg'          => "please use query string 'type'",
-    'detail'        => '',
+    'isSuccessful'  => 'failed',
+    'data'          => 'none',
+    'msg'           => "please use query string 'type'",
+    'detail'        => 'none',
   );
 
   $response = json_encode($response);
@@ -32,9 +32,9 @@ if ($query_type == 'main') {
 
   if (!$res) {
     $response = array(
-      'isSuccessful' => 'failed',
-      'data'         => 'none',
-      'msg'          => "can't get categories info from database",
+      'isSuccessful'  => 'failed',
+      'data'          => 'none',
+      'msg'           => "can't get categories info from database",
       'detail'        => $stmt->error,
     );
     $response = json_encode($response);
@@ -74,9 +74,9 @@ if ($query_type == 'detail') {
 
   if (!$res) {
     $response = array(
-      'isSuccessful' => 'failed',
-      'data'         => 'none',
-      'msg'          => "can't get categories info from database",
+      'isSuccessful'  => 'failed',
+      'data'          => 'none',
+      'msg'           => "can't get categories info from database",
       'detail'        => $stmt->error,
     );
     $response = json_encode($response);

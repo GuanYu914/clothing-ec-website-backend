@@ -80,7 +80,7 @@ if (count($data) == 0) {
   $response = array(
     'isSuccessful' => 'failed',
     'totals'       => $totals,
-    'data'         => '',
+    'data'         => 'none',
     'msg'          => "can't find anything on database",
     'detail'       => 'check your limit and offset settings',
   );
