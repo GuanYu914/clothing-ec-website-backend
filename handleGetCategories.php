@@ -27,7 +27,7 @@ if ($query_type === null) {
 }
 if ($query_type == 'main') {
   // echo "receive main";
-  $stmt = $conn->prepare('SELECT category_id as id, name FROM categories ORDER BY category_id ASC');
+  $stmt = $conn->prepare('SELECT category_id as id, name, src_url as src FROM categories ORDER BY category_id ASC');
   $res = $stmt->execute();
 
   if (!$res) {
@@ -51,6 +51,7 @@ if ($query_type == 'main') {
       array(
         'id'   => $row['id'],
         'name' => $row['name'],
+        'src'  => $row['src'],
       )
     );
   }
