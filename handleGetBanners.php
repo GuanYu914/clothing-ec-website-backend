@@ -10,7 +10,7 @@
 
 require_once('conn.php');
 
-$stmt = $conn->prepare('SELECT banner_id as id, src_url as src, alt_info as alt FROM banners ORDER BY banner_id ASC');
+$stmt = $conn->prepare('SELECT banner_id as id, src_url as src, alt_info as alt, link_to as link FROM banners ORDER BY banner_id ASC');
 $res = $stmt->execute();
 
 if (!$res) {
@@ -33,6 +33,7 @@ while ($row = $res->fetch_assoc()) {
     'id'  => $row['id'],
     'src' => $row['src'],
     'alt' => $row['alt'],
+    'link' => $row['link'],
   ));
 }
 
