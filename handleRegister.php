@@ -8,6 +8,7 @@
   }
 */
 if (!isset($_SESSION)) {
+  session_name('clothing-ec');
   session_start();
 }
 

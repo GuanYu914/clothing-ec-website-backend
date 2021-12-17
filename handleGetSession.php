@@ -10,6 +10,7 @@
  */
 
 if (!isset($_SESSION)) {
+  session_name('clothing-ec');
   session_start();
 }
 
@@ -46,7 +47,7 @@ $data = array(
   'id'        => $_SESSION['id'],
   'nickname'  => $_SESSION['nickname'],
   'account'   => $_SESSION['account'],
-  'password'  => $_SESSION['password']
+  'password'  => base64_encode($_SESSION['password'])
 );
 
 $response = array(
