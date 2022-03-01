@@ -12,17 +12,9 @@
 
 require_once('conn.php');
 
-$query_limit = $_GET['limit'];
-$query_offset = $_GET['offset'];
-
-// use default value
-if ($query_limit == null) {
-  $query_limit = 5;
-}
-
-if ($query_offset == null) {
-  $query_offset = 0;
-}
+$query_limit = is_null($_GET['limit']) ? 5 : $_GET['limit'];
+$query_offset = is_null($_GET['offset']) ? 0 : $_GET['offset'];
+$query_webp = is_null($_GET['webp']) ? false : true;
 
 // get total data counts 
 $stmt = $conn->prepare('SELECT COUNT(*) as count FROM products WHERE hot_item = 1');
@@ -47,7 +39,10 @@ while ($row = $res->fetch_assoc()) {
 }
 
 // get hot items
-$stmt = $conn->prepare('SELECT product_id as id, name, unitPrice as price, imgs as imgs FROM products WHERE hot_item = 1 ORDER BY modified_at DESC LIMIT ? OFFSET ?');
+$stmt_query = $query_webp ?
+  'SELECT product_id as id, name, unitPrice as price, webp_imgs as imgs FROM products WHERE hot_item = 1 ORDER BY modified_at DESC LIMIT ? OFFSET ?' :
+  'SELECT product_id as id, name, unitPrice as price, imgs as imgs FROM products WHERE hot_item = 1 ORDER BY modified_at DESC LIMIT ? OFFSET ?';
+$stmt = $conn->prepare($stmt_query);
 $stmt->bind_param('ii', $query_limit, $query_offset);
 $res = $stmt->execute();
 

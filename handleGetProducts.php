@@ -17,8 +17,9 @@ $query_sub_category = $_GET['sub'];
 $query_detailed_category = $_GET['detailed'];
 $flag_enable_search_sub_category = false;
 $flag_enable_search_detailed_category = false;
-$query_limit = $_GET['limit'];
-$query_offset = $_GET['offset'];
+$query_limit = is_null($_GET['limit']) ? 5 : $_GET['limit'];
+$query_offset = is_null($_GET['offset']) ? 0 : $_GET['offset'];
+$query_webp = is_null($_GET['webp']) ? false : true;
 
 if ($query_main_category == null || $query_main_category == 'undefined') {
   $response = array(
@@ -40,15 +41,6 @@ if ($query_sub_category != null && $query_sub_category != "undefined") {
 
 if ($query_detailed_category != null && $query_detailed_category != "undefined") {
   $flag_enable_search_detailed_category = true;
-}
-
-// use default value
-if ($query_limit == null) {
-  $query_limit = 5;
-}
-
-if ($query_offset == null) {
-  $query_offset = 0;
 }
 
 $stmt = $conn->prepare('SELECT product_id as id, category FROM products ORDER BY product_id ASC');
@@ -95,9 +87,12 @@ while ($row = $res->fetch_assoc()) {
 $conn->autocommit(FALSE);
 $conn->begin_transaction();
 $data = array();
+$stmt_query = $query_webp ?
+  'SELECT product_id as id, name, webp_imgs as imgs, unitPrice as price FROM products WHERE product_id = ?' :
+  'SELECT product_id as id, name, imgs, unitPrice as price FROM products WHERE product_id = ?';
 try {
   for ($i = 0; $i < $query_limit; $i++) {
-    $stmt = $conn->prepare('SELECT product_id as id, name, imgs, unitPrice as price FROM products WHERE product_id = ?');
+    $stmt = $conn->prepare($stmt_query);
     // 超出要抓取的產品清單內容長度，則跳出
     if ($i > count($fetch_products_list_by_id) - 1) break;
     $stmt->bind_param('i', $fetch_products_list_by_id[$i + $query_offset]);

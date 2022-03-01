@@ -11,17 +11,9 @@
 
 require_once('conn.php');
 
-$query_offset = $_GET['offset'];
-$query_limit = $_GET['limit'];
-
-// use default value
-if ($query_offset == null) {
-  $query_offset = 0;
-};
-
-if ($query_limit == null) {
-  $query_limit = 5;
-}
+$query_offset = is_null($_GET['offset']) ? 0 : $_GET['offset'];
+$query_limit = is_null($_GET['limit']) ? 5 : $_GET['limit'];
+$query_webp = is_null($_GET['webp']) ? false : true;
 
 // get total data counts
 $stmt = $conn->prepare('SELECT COUNT(*) as count FROM comments');
@@ -46,7 +38,10 @@ while ($row = $res->fetch_assoc()) {
 }
 
 // get user comments
-$stmt = $conn->prepare('SELECT comments.comment_id as id, comments.comment as comment, users.avatar as avatar FROM comments INNER JOIN users ON comments.account = users.account ORDER BY comments.created_at DESC LIMIT ? OFFSET ?');
+$stmt_query = $query_webp ?
+  'SELECT comments.comment_id as id, comments.comment as comment, users.webp_avatar as avatar FROM comments INNER JOIN users ON comments.account = users.account ORDER BY comments.created_at DESC LIMIT ? OFFSET ?' :
+  'SELECT comments.comment_id as id, comments.comment as comment, users.avatar as avatar FROM comments INNER JOIN users ON comments.account = users.account ORDER BY comments.created_at DESC LIMIT ? OFFSET ?';
+$stmt = $conn->prepare($stmt_query);
 $stmt->bind_param('ii', $query_limit, $query_offset);
 $res = $stmt->execute();
 
