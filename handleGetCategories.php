@@ -26,8 +26,12 @@ if ($query_type === null) {
   die();
 }
 if ($query_type == 'main') {
-  // echo "receive main";
-  $stmt = $conn->prepare('SELECT category_id as id, name, src_url as src FROM categories ORDER BY category_id ASC');
+  $query_webp = is_null($_GET['webp']) ? false : true;
+
+  $stmt_query = $query_webp ?
+    'SELECT category_id as id, name, src_webp_url as src FROM categories ORDER BY category_id ASC' :
+    'SELECT category_id as id, name, src_url as src FROM categories ORDER BY category_id ASC';
+  $stmt = $conn->prepare($stmt_query);
   $res = $stmt->execute();
 
   if (!$res) {

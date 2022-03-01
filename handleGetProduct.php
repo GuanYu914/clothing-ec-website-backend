@@ -12,6 +12,7 @@
 require_once("conn.php");
 
 $query_product_id = $_GET['id'];
+$query_webp = is_null($_GET['webp']) ? false : true;
 
 if ($query_product_id == null) {
   $response = array(
@@ -27,7 +28,10 @@ if ($query_product_id == null) {
   die();
 }
 
-$stmt = $conn->prepare("SELECT product_id as pid, category, detail, name, imgs, colors, sizes, unitPrice as price FROM products WHERE product_id = ?");
+$stmt_query = $query_webp ?
+  'SELECT product_id as pid, category, detail, name, webp_imgs as imgs, colors, sizes, unitPrice as price FROM products WHERE product_id = ?' :
+  'SELECT product_id as pid, category, detail, name, imgs, colors, sizes, unitPrice as price FROM products WHERE product_id = ?';
+$stmt = $conn->prepare($stmt_query);
 $stmt->bind_param('i', $query_product_id);
 $res = $stmt->execute();
 

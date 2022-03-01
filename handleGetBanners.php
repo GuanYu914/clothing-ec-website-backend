@@ -10,7 +10,12 @@
 
 require_once('conn.php');
 
-$stmt = $conn->prepare('SELECT banner_id as id, src_url as src, alt_info as alt, link_to as link FROM banners ORDER BY banner_id ASC');
+$query_webp = is_null($_GET['webp']) ? false : true;
+
+$stmt_query = $query_webp ?
+  'SELECT banner_id as id, src_webp_url as src, alt_info as alt, link_to as link FROM banners ORDER BY banner_id ASC' :
+  'SELECT banner_id as id, src_url as src, alt_info as alt, link_to as link FROM banners ORDER BY banner_id ASC';
+$stmt = $conn->prepare($stmt_query);
 $res = $stmt->execute();
 
 if (!$res) {

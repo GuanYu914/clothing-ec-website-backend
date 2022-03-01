@@ -15,6 +15,7 @@ if (!isset($_SESSION)) {
 }
 
 require_once('conn.php');
+$query_webp = is_null($_GET['webp']) ? false : true;
 
 // if account session var is not set
 if (empty($_SESSION['account'])) {
@@ -81,9 +82,12 @@ for ($i = 0; $i < count($decode_json); $i++) {
 $conn->autocommit(FALSE);
 $conn->begin_transaction();
 $data = array();
+$stmt_query = $stmt_webp ?
+  'SELECT product_id as id, name, webp_imgs as imgs, unitPrice as price FROM products WHERE product_id = ?' :
+  'SELECT product_id as id, name, imgs, unitPrice as price FROM products WHERE product_id = ?';
 try {
   for ($i = 0; $i < count($fetch_products_list_by_pid); $i++) {
-    $stmt = $conn->prepare("SELECT product_id as id, name, imgs, unitPrice as price FROM products WHERE product_id = ?");
+    $stmt = $conn->prepare($stmt_query);
     $stmt->bind_param('i', $fetch_products_list_by_pid[$i]);
     $res = $stmt->execute();
     $res = $stmt->get_result();
