@@ -94,14 +94,12 @@ try {
   for ($i = 0; $i < $query_limit; $i++) {
     $stmt = $conn->prepare($stmt_query);
     // 超出要抓取的產品清單內容長度，則跳出
-    if ($i > count($fetch_products_list_by_id) - 1) break;
+    if ($fetch_products_list_by_id[$i + $query_offset] === null) break;
     $stmt->bind_param('i', $fetch_products_list_by_id[$i + $query_offset]);
     $res = $stmt->execute();
     $res = $stmt->get_result();
     $row = $res->fetch_assoc();
-    if ($row !== null) {
-      array_push($data, $row);
-    }
+    array_push($data, $row);
   }
 } catch (mysqli_sql_exception $exception) {
   $conn->rollback();
